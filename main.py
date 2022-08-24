@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
+import sys
 
 class bcolors:
     HEADER = '\033[95m'
@@ -59,8 +60,6 @@ def reminders_search(cell_number,page_number):
     page_number_menu='https://online-sms.org/es/free-phone-number-{}?page={}'.format(cell_number,page_number)
 
     soup = page_getter(page_number_menu) #obtengo la pagina del numero que quiero
-    
-    #first_block= soup.find('table',{"class":"table table-condensed table-hover table-striped num-sms"})
     body= soup.find('tbody')
 
     message_blocks=body.find_all('tr')
@@ -93,17 +92,20 @@ def one_number_only(numero):
     hit_counter=0
     last_page=int(get_last_page(numero))
     for page_number in range (0,last_page+1):
-        print_bold("Number of page: {}".format(page_number))
         for element in reminders_search(numero,page_number):
             if (element == "Twitter"):
-                print_green(element)
                 hit_counter+=1
             else:
-                print(element)
+                pass
     print_green("All hits: ".format(hit_counter))
+    print_bold(numero)
+    print_red("FINISHED")
 
 
-one_number_only(33644624724)
+if __name__ == "__main__":
+    one_number_only(33644624771)
+    
+    
 
         
     
