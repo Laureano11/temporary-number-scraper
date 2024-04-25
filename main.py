@@ -1,10 +1,10 @@
 from bs4 import BeautifulSoup
 import requests
 import sys
-import colours
+import threading
 
 
-print(hola)
+
 
 
 
@@ -30,11 +30,6 @@ def search_numbers():
         number=x.get_text()[1:]
         number_list.append(number)
     return number_list #Devuelve todos los numeros que hay en la pagina
-
-
-
-
-# print(search_numbers())
 
 def reminders_search(cell_number,page_number):
     
@@ -83,11 +78,46 @@ def one_number_only(numero):
     print_red("FINISHED")
 
 
-if __name__ == "__main__":
+# Tu código existente...
 
-    input_number=sys.argv[1]
-    one_number_only(input_number)
+def one_number_only(numero):
+    hit_counter = 0
+    last_page = int(get_last_page(numero))
+    for page_number in range(0, last_page + 1):
+        for element in reminders_search(numero, page_number):
+            if element == "Twitter":
+                hit_counter += 1
+            else:
+                pass
+    print(f"All hits for {numero}: {hit_counter}")
+    print(f"FINISHED for {numero}")
+
+def main():
+    # Obtener la lista de números para procesar
+    numbers = search_numbers()
+
+    # Crear una lista de hilos
+    threads = []
+
+    # Iniciar un hilo para cada número
+    for numero in numbers:
+        thread = threading.Thread(target=one_number_only, args=(numero,))
+        threads.append(thread)
+        thread.start()
+
+    # Esperar a que todos los hilos terminen
+    for thread in threads:
+        thread.join()
+
+if __name__ == "__main__":
+    main()
+
+
+
+
     
+    
+     
     
 
         
