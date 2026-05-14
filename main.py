@@ -1,9 +1,8 @@
 from bs4 import BeautifulSoup
 import requests
-import sys
 import threading
 
-
+from colours import print_bold, print_green, print_red, print_title
 
 
 
@@ -63,22 +62,6 @@ def all_numbers_page():
         one_number_only(numero)
 
 
-
-def one_number_only(numero):
-    hit_counter=0
-    last_page=int(get_last_page(numero))
-    for page_number in range (0,last_page+1):
-        for element in reminders_search(numero,page_number):
-            if (element == "Twitter"):
-                hit_counter+=1
-            else:
-                pass
-    print_green("All hits: ".format(hit_counter))
-    print_bold(numero)
-    print_red("FINISHED")
-
-
-# Tu código existente...
 
 def one_number_only(numero):
     hit_counter = 0
